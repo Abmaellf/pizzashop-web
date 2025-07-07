@@ -4,6 +4,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
+import { ThemeProvider } from './components/theme/theme-provider'
 import { Router } from './router'
 
 export function App() {
@@ -11,9 +12,11 @@ export function App() {
     <BrowserRouter>
       {/* <HelmetProvider> */}
       {/* <Helmet titleTemplate="%s | Pizza.Shop" /> */}
-      <Toaster richColors />
-      <Router />
-      {/* </HelmetProvider> */}
+      <ThemeProvider defaultTheme="dark" storageKey="pizza-shop-theme">
+        <Toaster richColors />
+        <Router />
+        {/* </HelmetProvider> */}
+      </ThemeProvider>
     </BrowserRouter>
   )
 }
