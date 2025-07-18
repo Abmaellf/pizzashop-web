@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import { AppLayout } from './page/_layouts/app'
 import { AuthLayout } from './page/_layouts/auth'
-import { Dashboard } from './page/app/dashboard'
+import { Dashboard } from './page/app/dashboard/dashboard'
 import { Orders } from './page/app/orders/orders'
 import { SignIn } from './page/auth/sign-in'
 import { SignUp } from './page/auth/sign-up'
