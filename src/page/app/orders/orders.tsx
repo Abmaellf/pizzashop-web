@@ -1,14 +1,14 @@
-import { Pagination } from "@/components/pagination";
+import { Pagination } from '@/components/pagination'
 import {
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table'
 
-import OrderTableFilters from "./order-table-filters";
-import { OrderTableRow } from "./order-table-row";
+import OrderTableFilters from './order-table-filters'
+import { OrderTableRow } from './order-table-row'
 
 export function Orders() {
   return (
@@ -36,7 +36,7 @@ export function Orders() {
 
               <TableBody>
                 {Array.from({ length: 10 }).map((_, i) => {
-                  return <OrderTableRow key={i} />;
+                  return <OrderTableRow key={i} />
                 })}
               </TableBody>
             </Table>
@@ -45,5 +45,5 @@ export function Orders() {
         </div>
       </div>
     </>
-  );
+  )
 }

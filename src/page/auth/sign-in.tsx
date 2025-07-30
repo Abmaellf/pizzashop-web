@@ -1,17 +1,19 @@
 // import { Helmet } from 'react-helmet-async'
 
+import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const signInForm = z.object({
   email: z.string().email(),
-  // senha: z.string().min(6).max(10),
 })
 
 type SignInForm = z.infer<typeof signInForm>
@@ -23,11 +25,14 @@ export function SignIn() {
     formState: { isSubmitting },
   } = useForm<SignInForm>()
 
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  })
+
   async function handleSignin(data: SignInForm) {
     try {
-      console.log(data)
-      // throw new Error()
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await authenticate({ email: data.email })
+
       toast.success('Enviamos um link de autenticação para o seu e-mail', {
         // description: 'Descriptio',
         action: {
