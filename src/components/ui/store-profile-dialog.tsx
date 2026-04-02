@@ -26,7 +26,7 @@ import { Textarea } from './textarea'
 
 const storeProfileSchema = z.object({
   name: z.string().min(1),
-  description: z.string(),
+  description: z.string().nullable(),
 })
 
 type StoreProfileSchema = z.infer<typeof storeProfileSchema>
@@ -53,21 +53,46 @@ export function StoreProfileDialog() {
     },
   })
 
+  function updateManagedRestaurantCache({
+    name,
+    description,
+  }: StoreProfileSchema) {
+    const cached = queryClient.getQueriesData<GetManagedRestaurantResponse>([
+      'managed-restaurant',
+    ])
+
+    if (cached) {
+      queryClient.setQueryData<GetManagedRestaurantResponse>(
+        ['managed-restaurant'],
+        {
+          ...cached,
+          name,
+          description,
+        },
+      )
+    }
+
+    return { cached }
+  }
+
   const { mutateAsync: updateProfileFn } = useMutation({
     mutationFn: UpdateProfile,
-    onSuccess(_, { name, description }) {
-      const cached = queryClient.getQueriesData<GetManagedRestaurantResponse>([
-        'managed-restaurant',
-      ])
+    onMutate({ name, description }) {
+      const { cached } = updateManagedRestaurantCache({
+        name,
+        description,
+      })
+      console.log('Dentro do mutate ', cached)
+      return { previousProfile: cached }
+    },
 
-      if (cached) {
+    onError(_, __, context) {
+      console.log('Dentro do erro ', context.previousProfile)
+
+      if (context?.previousProfile) {
         queryClient.setQueryData<GetManagedRestaurantResponse>(
           ['managed-restaurant'],
-          {
-            ...cached,
-            name,
-            description,
-          },
+          context.previousProfile[1][1],
         )
       }
     },
