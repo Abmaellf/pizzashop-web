@@ -15,7 +15,7 @@ const statuses: OrderStatus[] = [
   'delivering',
 ]
 
-const orders: Orders = Array.from({ length: 10 }).map((_, i) => ({
+const orders: Orders = Array.from({ length: 60 }).map((_, i) => ({
   orderId: `order-${i + 1}`,
   customerName: `Customer ${i + 1}`,
   createdAt: new Date().toISOString(),
